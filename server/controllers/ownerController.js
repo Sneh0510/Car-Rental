@@ -37,7 +37,7 @@ export const addCar = async (req, res) => {
     var optimizedImageUrl = imagekit.url({
       path: response.filePath,
       transformation: [
-        { width: "1200" }, // width resizing
+        { width: "1280" }, // width resizing
         { quality: "auto" }, // auto compression
         { format: "webp" }, // convert to modern format
       ],
@@ -135,10 +135,7 @@ export const getDashboardData = async (req, res) => {
 
     // calculate monthlyRevenue from booking where status is confirmed
 
-    const monthlyRevenue = bookings
-      .slice()
-      .filter((booking) => booking.status === "confirmed")
-      .reduce((acc, (booking) => acc + booking.price, 0));
+    const monthlyRevenue = bookings.slice().filter(booking => booking.status === "confirmed").reduce((acc, (booking) => acc + booking.price, 0));
 
     const dashboardData = {
       totalCars: cars.length,

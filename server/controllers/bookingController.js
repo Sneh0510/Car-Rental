@@ -14,7 +14,7 @@ const checkAvailability = async (car, pickupDate, returnDate) => {
 // api to check availability of cars for the given date and location
 export const checkAvailabilityOfCar = async (req, res) => {
   try {
-    const { location, pickupData, returnData } = req.body;
+    const { location, pickupDate, returnDate } = req.body;
 
     // fetch all available cars for the given locaiton
     const cars = await Car.find({ location, isAvaliable: true });
@@ -23,14 +23,14 @@ export const checkAvailabilityOfCar = async (req, res) => {
     const availableCarsPromise = cars.map(async (car) => {
       const isAvailable = await checkAvailability(
         car._id,
-        pickupData,
-        returnData
+        pickupDate,
+        returnDate
       );
       return { ...car._doc, isAvailable: isAvailable };
     });
 
     let availableCars = await Promise.all(availableCarsPromise);
-    availableCars = availableCars.filter((car) => car.isAvailable === true);
+    availableCars = availableCars.filter(car => car.isAvailable === true);
 
     res.json({ success: true, availableCars });
   } catch (error) {
@@ -103,7 +103,7 @@ export const getOwnerBookings = async (req, res) => {
 };
 
 
-// api to change bookign status
+// api to change booking status
 export const changeBookingStatus = async (req, res) => {
   try {
     const {_id} = req.user;
