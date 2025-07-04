@@ -18,7 +18,7 @@ export const AppProvider = ({ children }) => {
     const [isOwner, setIsOwner] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
     const [pickupDate, setPickupDate] = useState('')
-    const [returnData, setReturnData] = useState('')
+    const [returnDate, setReturnDate] = useState('')
     const [cars, setCars] = useState([])
 
     // function to check if user is logged in
@@ -73,7 +73,7 @@ export const AppProvider = ({ children }) => {
     }, [token])
 
     const value = {
-        navigate, currency, axios, user, setUser, token, setToken, isOwner, setIsOwner, fetchUser, showLogin, setShowLogin, logout, fetchCars, cars, setCars, pickupDate, setPickupDate, returnData, setReturnData
+        navigate, currency, axios, user, setUser, token, setToken, isOwner, setIsOwner, fetchUser, showLogin, setShowLogin, logout, fetchCars, cars, setCars, pickupDate, setPickupDate, returnDate, setReturnDate
     }
 
     return (

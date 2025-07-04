@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { assets, menuLinks } from "../assets/assets";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import { changeRoleToOwner } from "../../../server/controllers/ownerController";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
 
-  const {setShowlogin, user, logout, isOwner, axios, setIsOwner} = useAppContext();
+  const {setShowLogin, user, logout, isOwner, axios, setIsOwner} = useAppContext();
 
     const location = useLocation()
     const [open, setOpen] = useState(false)
@@ -15,7 +14,7 @@ const Navbar = () => {
 
     const changeRole = async ()=> {
        try {
-        const { data }= await axios.port('/api/owner/change-role')
+        const { data }= await axios.post('/api/owner/change-role')
         if(data.success){
           setIsOwner(true)
           toast.success(data.message)
