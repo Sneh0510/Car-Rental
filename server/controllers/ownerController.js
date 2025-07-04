@@ -9,7 +9,7 @@ import Booking from "../models/booking.js";
 export const changeRoleToOwner = async (req, res) => {
   try {
     const { id } = req.user;
-    await User.findByIdAndUpdate(__dirname, { role: "owner" });
+    await User.findByIdAndUpdate(id, { role: "owner" });
     res.json({ success: true, message: "Now you can list cars" });
   } catch (error) {
     console.log(error.message);
@@ -92,23 +92,28 @@ export const deleteCar = async (req, res) => {
   try {
     const { _id } = req.user;
     const { carId } = req.body;
+
     const car = await Car.findById(carId);
 
-    // checking is car belongs to the car
-    if (car.owner.toString() !== _id.toString()) {
-      return res.json({ success: false, message: "Unauthorized" });
+    if (!car) {
+      return res.status(404).json({ success: false, message: "Car not found" });
     }
 
-    car.owner = null;
-    car.isAvaliable = false;
-    await car.save();
+    // Check ownership
+    if (car.owner.toString() !== _id.toString()) {
+      return res.status(403).json({ success: false, message: "Unauthorized" });
+    }
 
-    res.json({ success: true, message: "Car Removed" });
+    // Delete car
+    await Car.findByIdAndDelete(carId);
+
+    res.json({ success: true, message: "Car deleted successfully" });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.log("Delete Car Error:", error.message);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // api to get dashboard data
 export const getDashboardData = async (req, res) => {
@@ -135,7 +140,7 @@ export const getDashboardData = async (req, res) => {
 
     // calculate monthlyRevenue from booking where status is confirmed
 
-    const monthlyRevenue = bookings.slice().filter(booking => booking.status === "confirmed").reduce((acc, (booking) => acc + booking.price, 0));
+    const monthlyRevenue = bookings.slice().filter(booking => booking.status === "confirmed").reduce((acc, booking) => acc + booking.price, 0);
 
     const dashboardData = {
       totalCars: cars.length,

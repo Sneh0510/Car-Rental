@@ -5,8 +5,8 @@ import Car from "../models/car.js";
 const checkAvailability = async (car, pickupDate, returnDate) => {
   const bookings = await Booking.find({
     car,
-    pickupData: { $lte: returnDate },
-    returnData: { $gte: pickupDate },
+    pickupDate: { $lte: returnDate },
+    returnDate: { $gte: pickupDate },
   });
   return bookings.length === 0;
 };
