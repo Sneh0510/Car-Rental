@@ -1,6 +1,7 @@
 import React from "react";
 import Title from "./Title";
 import { assets } from "../assets/assets";
+import { motion } from 'motion/react'
 
 const Testimonial = () => {
   const testimonials = [
@@ -34,7 +35,11 @@ const Testimonial = () => {
         l
       >
         {testimonials.map((testimonial, index) => (
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
             key={index}
             className="bg-white p-6 rounded-xl shadow-lg hover:-translate-y-1 transition-all duration-500"
           >
@@ -53,13 +58,13 @@ const Testimonial = () => {
               {Array(5)
                 .fill(0)
                 .map((_, index) => (
-                    <img key={index} src={assets.star_icon} alt="star icon"/>
+                  <img key={index} src={assets.star_icon} alt="star icon" />
                 ))}
             </div>
             <p className="text-gray-500 max-w-90 mt-4 font-light">
               "{testimonial.testimonial}"
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
