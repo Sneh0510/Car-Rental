@@ -1,4 +1,4 @@
-# 🚗 <p align="center">Car Rental Application</p>
+# <p align="center">🚗 Car Rental Application</p>
 
 A full stack car rental platform that allows users to browse, book, and manage car rentals, while owners can list and manage their vehicles and bookings.
 
